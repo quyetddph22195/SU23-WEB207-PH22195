@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lap 1</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+
+<body ng-app="angularjs-logic">
+    <div ng-controller="loopController">
+        <ul>
+            <!-- users là mảng khai báo ở $scope -->
+            <!-- user là phần tử ở mỗi vòng lặp -->
+            <li ng-repeat="motNguoiDung in dsNguoiDung">
+                <p>Họ tên: {{motNguoiDung.name}}</p>
+                <p>MSV: {{motNguoiDung.id}}</p>
+            </li>
+        </ul>
+        <button type="button" ng-click="HienForm()">thêm
+        </button>
+        <form class="formHien" style="display: none;" class="form form-hover">
+            <input placeholder="ID" ng-model="inPutValue.id">
+            <input placeholder="Họ và tên" ng-model="inPutValue.ten">
+            <input placeholder="Mô tả" ng-model="inPutValue.moTa">
+            <input placeholder="Link ảnh" ng-model="inPutValue.anh">
+            <button type="button" ng-click="AnForm()">Hủy
+            </button>
+            <button type="button" ng-click="ThemGiaTri()">Thêm
+            </button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã người dùng</th>
+                    <th>Tên người dùng</th>
+                </tr>
+            </thead>
+            <!-- <tbody>
+                <tr ng-repeat="user in users">
+                    <td>{{user.id}}</td>
+                    <td>{{user.name}}</td>
+                </tr>
+            </tbody> -->
+        </table>
+        <!-- Bảng sử dụng bootstrap -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>Mô tả</th>
+                    <th>Ảnh</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="pt in ds">
+                    <td>{{pt.id}}</td>
+                    <td>{{pt.name}}</td>
+                    <td>{{pt.moTa}}</td>
+                    <td>
+                        <img src="{{pt.avatar}}" alt="{{pt.name}}" width="50" height="50">
+                    </td>
+                    <!-- <td>{{pt.status === 0
+                        ? 'K Kích hoạt'
+                        : (pt.status === 1 ? 'KH' : 'Hot')}}
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="../angular/angular.min.js"></script>
+    <script>
+        var app = angular.module('angularjs-logic', []);
+        // loopController
+        app.controller('loopController', function ($scope) {
+            $scope.dsNguoiDung = [{ id: 1, name: 'Đỗ Đắc Quyết' }];
+            $scope.ds = [
+                {
+                    id: 1,
+                    name: 'Đỗ Đắc Quyết',
+                    moTa: 'Béo',
+                    avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png',
+                },
+            ];
+            $scope.inPutValue = {
+                id: '',
+                ten: '',
+                moTa: '',
+                anh: ''
+
+            }
+            const formHien = document.querySelector(".formHien");
+            $scope.HienForm = function () {
+                formHien.style.display = "block"
+            };
+            $scope.AnForm = function () {
+                formHien.style.display = "none"
+            };
+            $scope.ThemGiaTri = function () {
+                var giaTri = [];
+                giaTri.id = $scope.inPutValue.id;
+                giaTri.name = $scope.inPutValue.ten;
+                giaTri.moTa = $scope.inPutValue.moTa;
+                giaTri.avatar = $scope.inPutValue.anh;
+                $scope.ds.push(giaTri);
+                $scope.inPutValue = {
+                    id: '',
+                    ten: '',
+                    moTa: '',
+                    anh: ''
+
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
