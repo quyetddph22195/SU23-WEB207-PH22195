@@ -53,6 +53,11 @@
                     <td>
                         <img src="{{pt.avatar}}" alt="{{pt.name}}" width="50" height="50">
                     </td>
+                    <td>
+                        <button ng-click="onDelete(pt.id)">
+                            Xoa
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -93,7 +98,14 @@
                     ten: '',
                     moTa: '',
                     anh: ''
-
+                }
+                $scope.onDelete = function (deleteId) {
+                    var confirm = window.confirm('Ban co muon xoa khong?');
+                    if (confirm) {
+                        $scope.ds = $scope.ds.filter(function (item) {
+                            return item.id != deleteId;
+                        })
+                    }
                 }
             }
         });
