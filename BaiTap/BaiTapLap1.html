@@ -20,32 +20,21 @@
                 <p>MSV: {{motNguoiDung.id}}</p>
             </li>
         </ul>
-        <button type="button" ng-click="HienForm()">thêm
-        </button>
-        <form class="formHien" style="display: none;" class="form form-hover">
-            <input placeholder="ID" ng-model="inPutValue.id">
-            <input placeholder="Họ và tên" ng-model="inPutValue.ten">
-            <input placeholder="Mô tả" ng-model="inPutValue.moTa">
-            <input placeholder="Link ảnh" ng-model="inPutValue.anh">
-            <button type="button" ng-click="AnForm()">Hủy
+        <div ng-if="isShowForm == false">
+            <button type="button" ng-click="setShowForm(true)">thêm
             </button>
-            <button type="button" ng-click="ThemGiaTri()">Thêm
-            </button>
-        </form>
-        <table>
-            <thead>
-                <tr>
-                    <th>Mã người dùng</th>
-                    <th>Tên người dùng</th>
-                </tr>
-            </thead>
-            <!-- <tbody>
-                <tr ng-repeat="user in users">
-                    <td>{{user.id}}</td>
-                    <td>{{user.name}}</td>
-                </tr>
-            </tbody> -->
-        </table>
+        </div>
+        <div ng-if="isShowForm == true">
+            <form class="form form-hover">
+                <input placeholder="Họ và tên" ng-model="inPutValue.ten">
+                <input placeholder="Mô tả" ng-model="inPutValue.moTa">
+                <input placeholder="Link ảnh" ng-model="inPutValue.anh">
+                <button type="button" ng-click="setShowForm(false)">Hủy
+                </button>
+                <button type="button" ng-click="ThemGiaTri()">Thêm mới
+                </button>
+            </form>
+        </div>
         <!-- Bảng sử dụng bootstrap -->
         <table class="table table-hover">
             <thead>
@@ -64,10 +53,6 @@
                     <td>
                         <img src="{{pt.avatar}}" alt="{{pt.name}}" width="50" height="50">
                     </td>
-                    <!-- <td>{{pt.status === 0
-                        ? 'K Kích hoạt'
-                        : (pt.status === 1 ? 'KH' : 'Hot')}}
-                    </td> -->
                 </tr>
             </tbody>
         </table>
@@ -87,28 +72,24 @@
                 },
             ];
             $scope.inPutValue = {
-                id: '',
                 ten: '',
                 moTa: '',
                 anh: ''
 
             }
-            const formHien = document.querySelector(".formHien");
-            $scope.HienForm = function () {
-                formHien.style.display = "block"
-            };
-            $scope.AnForm = function () {
-                formHien.style.display = "none"
-            };
+            $scope.isShowForm = false;
+            $scope.setShowForm = function (status) {
+                $scope.isShowForm = status;
+            }
             $scope.ThemGiaTri = function () {
-                var giaTri = [];
-                giaTri.id = $scope.inPutValue.id;
-                giaTri.name = $scope.inPutValue.ten;
-                giaTri.moTa = $scope.inPutValue.moTa;
-                giaTri.avatar = $scope.inPutValue.anh;
+                var ds = $scope.ds
+                var newID = ds.length > 0 ? (ds[ds.length - 1].id + 1) : 1;
+                var giaTri = {
+                    ...$scope.inPutValue,
+                    id: newID
+                }
                 $scope.ds.push(giaTri);
                 $scope.inPutValue = {
-                    id: '',
                     ten: '',
                     moTa: '',
                     anh: ''
